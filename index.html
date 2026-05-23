@@ -3,249 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colossal.lol - Coming Soon</title>
 
-    <meta property="og:title" content="Colossal Cheat Menu V3">
-    <meta property="og:description" content="Coming soon.">
-    <meta property="og:image" content="https://colossal.lol/favicon.png">
-    <meta property="og:url" content="https://colossal.lol">
-    <meta property="og:type" content="website">
-
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <title>Colossal Cheat Menu V3</title>
     <style>
-        * {
+        @font-face {
+            font-family: 'Product Sans';
+            src: local('Product Sans'), local('Google Sans');
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: 'Product Sans';
+            src: local('Product Sans Bold'), local('Google Sans Bold');
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #E69CFF;
+            --bg-dark: #0a0a0f;
+            --text-primary: #ffffff;
+        }
+
         body {
-            font-family: 'Consolas', 'Courier New', monospace;
-            background: #000000;
+            font-family: 'Product Sans', 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow: hidden;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            overflow: hidden;
-            position: relative;
+            flex-direction: column;
         }
 
-        .background-orbs {
+        .bg-gradient {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(230, 156, 255, 0.28) 0%, transparent 48%),
+                radial-gradient(ellipse at 80% 80%, rgba(197, 123, 222, 0.22) 0%, transparent 48%),
+                radial-gradient(ellipse at 75% 15%, rgba(180, 80, 240, 0.18) 0%, transparent 40%),
+                radial-gradient(ellipse at 10% 75%, rgba(210, 100, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(230, 156, 255, 0.08) 0%, transparent 65%),
+                var(--bg-dark);
+            z-index: -2;
+        }
+
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
             overflow: hidden;
-            z-index: 0;
         }
 
-        .orb {
+        .bg-orbs::before {
+            content: '';
             position: absolute;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: float 20s ease-in-out infinite;
+            background: radial-gradient(circle, rgba(230, 156, 255, 0.12) 0%, transparent 70%);
+            top: -10%;
+            left: -10%;
+            animation: orbDrift1 22s linear infinite;
+            animation-delay: -7s;
+            filter: blur(40px);
         }
 
-        .orb1 {
+        .bg-orbs::after {
+            content: '';
+            position: absolute;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, #e1b0ff 0%, transparent 70%);
-            top: -200px;
-            right: -100px;
-            animation-delay: 0s;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(180, 80, 240, 0.14) 0%, transparent 70%);
+            bottom: -10%;
+            right: -5%;
+            animation: orbDrift2 28s linear infinite;
+            animation-delay: -10s;
+            filter: blur(50px);
         }
 
-        .orb2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #c77dff 0%, transparent 70%);
-            bottom: -150px;
-            left: -100px;
-            animation-delay: 5s;
+        @keyframes orbDrift1 {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(80px, 40px) scale(1.1); }
+            50% { transform: translate(120px, 80px) scale(1.2); }
+            75% { transform: translate(40px, 100px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
         }
 
-        .orb3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, #e1b0ff 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: 10s;
+        @keyframes orbDrift2 {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-60px, -30px) scale(1.08); }
+            50% { transform: translate(-100px, -60px) scale(1.15); }
+            75% { transform: translate(-50px, -80px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .ghosts-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .ghost {
+            position: absolute;
+            width: 92px;
+            height: 92px;
+            opacity: 0.12;
+            --scale: 1;
+            --dx: 0px;
+            --dy: 0px;
+            animation: float 42s linear infinite;
+            will-change: transform;
+            transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
+        }
+
+        .ghost img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            filter: saturate(165%) brightness(1.2)
+                drop-shadow(0 0 12px rgba(230, 156, 255, 0.35));
+        }
+
+        .ghost:nth-child(1) {
+            left: 5%;
+            top: 10%;
+            animation-delay: -1s;
+            --scale: 1;
+            --dx: 28px;
+            --dy: -20px;
+        }
+
+        .ghost:nth-child(2) {
+            left: 15%;
+            top: 60%;
+            animation-delay: -3s;
+            --scale: 1.1;
+            --dx: -36px;
+            --dy: 22px;
+        }
+
+        .ghost:nth-child(3) {
+            left: 25%;
+            top: 30%;
+            animation-delay: -5s;
+            --scale: 0.9;
+            --dx: 24px;
+            --dy: 28px;
+        }
+
+        .ghost:nth-child(4) {
+            left: 35%;
+            top: 80%;
+            animation-delay: -7s;
+            --scale: 1.05;
+            --dx: -30px;
+            --dy: -18px;
+        }
+
+        .ghost:nth-child(5) {
+            left: 45%;
+            top: 15%;
+            animation-delay: -9s;
+            --scale: 1.2;
+            --dx: 34px;
+            --dy: 16px;
+        }
+
+        .ghost:nth-child(6) {
+            left: 55%;
+            top: 70%;
+            animation-delay: -11s;
+            --scale: 0.8;
+            --dx: -26px;
+            --dy: -24px;
+        }
+
+        .ghost:nth-child(7) {
+            left: 65%;
+            top: 40%;
+            animation-delay: -13s;
+            --scale: 1;
+            --dx: 22px;
+            --dy: 26px;
+        }
+
+        .ghost:nth-child(8) {
+            left: 75%;
+            top: 85%;
+            animation-delay: -15s;
+            --scale: 0.9;
+            --dx: -32px;
+            --dy: 20px;
+        }
+
+        .ghost:nth-child(9) {
+            left: 85%;
+            top: 20%;
+            animation-delay: -17s;
+            --scale: 1.3;
+            --dx: 30px;
+            --dy: -22px;
+        }
+
+        .ghost:nth-child(10) {
+            left: 95%;
+            top: 55%;
+            animation-delay: -19s;
+            --scale: 0.7;
+            --dx: -24px;
+            --dy: 24px;
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
+            0% {
+                transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
             }
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
+            25% {
+                transform: translate3d(var(--dx), calc(var(--dy) * -0.45), 0)
+                    scale(var(--scale)) rotate(2deg);
             }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
+            50% {
+                transform: translate3d(calc(var(--dx) * -0.65), var(--dy), 0)
+                    scale(var(--scale)) rotate(3deg);
+            }
+            75% {
+                transform: translate3d(calc(var(--dx) * 0.5), calc(var(--dy) * 0.55), 0)
+                    scale(var(--scale)) rotate(-2deg);
+            }
+            100% {
+                transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
             }
         }
 
-        .container {
+        .page-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 2rem;
+        }
+
+        .meow-card {
             position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 80px 60px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 0 80px rgba(225, 176, 255, 0.15);
-            max-width: 800px;
-            width: 90%;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(18, 18, 28, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 40px;
-            margin-bottom: 40px;
+            padding: 3.8rem;
+            width: 100%;
+            max-width: 720px;
+            text-align: center;
+            box-shadow:
+                0 10px 26px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(125%);
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        h1 {
-            font-size: 48px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #ffffff 0%, #e1b0ff 50%, #c77dff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            line-height: 1.2;
-            white-space: nowrap;
+        .meow-card:hover {
+            border-color: rgba(230, 156, 255, 0.44);
+            box-shadow:
+                0 16px 34px rgba(0, 0, 0, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .meow-logo {
+            font-size: 1.95rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .meow-logo span {
+            color: var(--primary);
+        }
+
+        .coming-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 24px rgba(230, 156, 255, 0.28);
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E69CFF 0%, #D58DF2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 156, 255, 0.3);
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
+            .meow-card {
+                padding: 2rem 1.5rem;
             }
-            
-            .container {
-                padding: 60px 30px;
-                max-width: 90%;
+
+            .coming-title {
+                font-size: 2rem;
             }
-        }
-
-        .version {
-            font-size: 18px;
-            color: rgba(225, 176, 255, 0.8);
-            margin-top: -10px;
-            letter-spacing: 3px;
-        }
-
-        .coming-soon {
-            font-size: 22px;
-            color: rgba(255, 255, 255, 0.7);
-            margin: 30px 0;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        .discord-button {
-            display: inline-block;
-            padding: 18px 56px;
-            background: rgba(225, 176, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(225, 176, 255, 0.4);
-            border-radius: 16px;
-            color: #e1b0ff;
-            font-size: 16px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            text-decoration: none;
-            letter-spacing: 2px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 32px rgba(225, 176, 255, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .discord-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .discord-button:hover::before {
-            left: 100%;
-        }
-
-        .discord-button:hover {
-            background: rgba(225, 176, 255, 0.2);
-            border-color: rgba(225, 176, 255, 0.6);
-            transform: translateY(-3px);
-            box-shadow: 
-                0 12px 48px rgba(225, 176, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .discord-button:active {
-            transform: translateY(-1px);
-        }
-
-        .shine {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            border-radius: 32px 32px 0 0;
         }
     </style>
 </head>
+
 <body>
-    <div class="background-orbs">
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
-        <div class="orb orb3"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-orbs"></div>
+
+    <div class="ghosts-container">
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
+        <div class="ghost"><img src="images/favicon.png" alt=""></div>
     </div>
-    
-    <div class="container">
-        <div class="shine"></div>
-        <div class="glass-card">
-            <h1>Colossal Cheat Menu</h1>
-            <p class="version">V3</p>
+
+    <div class="page-content">
+        <div class="meow-card">
+            <div class="meow-logo">
+                Colossal<span>.lol</span><br>coming soon
+            </div>
+
+            <a
+                href="https://discord.gg/JmX66dGjEC"
+                class="btn btn-primary"
+                target="_blank"
+            >
+                Join The Discord
+            </a>
         </div>
-        
-        <p class="coming-soon">Coming Soon</p>
-        
-        <a href="https://discord.gg/JmX66dGjEC" class="discord-button">Join the Discord</a>
     </div>
 </body>
 </html>
