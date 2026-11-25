@@ -1,0 +1,274 @@
+/* ============================================================
+   Wave — static site stylesheet SOURCE
+   ------------------------------------------------------------
+   css/site.css is compiled from this file with Tailwind v4.
+   You do not need to edit site.css by hand — edit this, then:
+
+     npm i -D tailwindcss @tailwindcss/cli
+     npx @tailwindcss/cli -i styles.src.css -o css/site.css --minify
+
+   GitHub Pages only ever sees the compiled css/site.css.
+   ============================================================ */
+
+@import "tailwindcss" source(none);
+
+@source "./*.html";
+@source "./js/*.js";
+
+/* Gorilla Tag's in-game font (Utopium-style pixel face, ASCII only) */
+@font-face {
+  font-family: "Gorilla Tag";
+  src: url("../assets/fonts/gorilla-tag-font.woff2") format("woff2"),
+       url("../assets/fonts/gorilla-tag-font.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--base-font-sans);
+  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+:root {
+  --font-gtag: "Gorilla Tag", ui-monospace, monospace;
+  --base-font-sans: "Gorilla Tag", "Product Sans", "Google Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --background: #060e1a;
+  --foreground: #ffffff;
+  --primary: #83D6FC;
+  --primary-foreground: #04121f;
+  --primary-dark: #2563EB;
+  --card: rgba(10,26,44,0.6);
+  --card-foreground: #ffffff;
+  --muted: rgba(255,255,255,0.05);
+  --muted-foreground: #9fb6c9;
+  --border: rgba(255,255,255,0.1);
+  --input: rgba(255,255,255,0.08);
+  --ring: #83D6FC;
+  --radius: 0.75rem;
+  --bg-dark: #060e1a;
+  --bg-card: rgba(10,26,44,0.6);
+  --text-primary: #ffffff;
+  --text-secondary: #9fb6c9;
+  --glass: rgba(255,255,255,0.05);
+  --water-light: #C4EEFF;
+  --water-mid: #83D6FC;
+  --water-deep: #2563EB;
+  --water-abyss: #04121f;
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground font-sans; }
+  /* GTag's pixel face is caps-only by design — lowercase reads like broken glyphs */
+  html { @apply font-sans; text-transform: uppercase; }
+  /* keep things that must stay verbatim lowercase: typed values, codes, snippets */
+  input, textarea, select, option, code, pre, kbd, samp, [contenteditable="true"] { text-transform: none; }
+  h1, h2, h3, h4 { text-shadow: 0 0 16px rgba(255,255,255,0.04), 0 0 32px rgba(131,214,252,0.03); }
+}
+
+/* === Wave shared theme — deep water === */
+.wave-bg-gradient {
+  position: fixed; inset: 0; z-index: -2;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -14%, rgba(131,214,252,0.20) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 45% at 14% 34%, rgba(37,99,235,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 86% 58%, rgba(30,64,175,0.20) 0%, transparent 62%),
+    linear-gradient(180deg, #0a2438 0%, #071829 40%, #040e1a 74%, #02070d 100%);
+}
+
+.wave-field {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
+  opacity: calc(1 - var(--wave-fade, 0));
+  transform: translate3d(0, calc(var(--wave-fade, 0) * 9vh), 0);
+}
+
+.wave-band {
+  position: absolute; left: 0; bottom: 0; width: 200%;
+  animation: waveDrift var(--wave-dur, 90s) linear infinite;
+  /* negative start offset — keeps the three swells off each other's phase */
+  animation-delay: var(--wave-delay, 0s);
+  will-change: transform;
+}
+.wave-band--reverse { animation-direction: reverse; }
+/* fill stays a soft haze, the crest stays crisp — that contrast is what makes the swell read */
+.wave-band svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.wave-fill  { filter: blur(20px); }
+.wave-crest { filter: blur(0.5px); }
+
+/* the water column below the hero — deepens as you scroll */
+.wave-deep {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  opacity: min(1, calc(var(--wave-fade, 0) * 1.12));
+  background: linear-gradient(180deg, rgba(3,9,16,0) 0%, rgba(3,10,18,0.40) 40%, rgba(2,8,15,0.80) 76%, #02080f 100%);
+}
+
+/* the band is two tiles wide, so a half-width shift lands on an identical crest */
+@keyframes waveDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-band { animation: none; }
+}
+
+/* sale price panel — faint rainbow rim that slowly slides, no neon */
+.sale-ring {
+  border: 1px solid transparent;
+  border-radius: 0.9rem;
+  background-image:
+    linear-gradient(160deg, rgba(12, 34, 56, 0.86), rgba(8, 22, 38, 0.8)),
+    linear-gradient(115deg, #7cc9ec 0%, #a795ef 32%, #e3a8e4 55%, #a795ef 78%, #7cc9ec 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 300% 100%;
+  background-position: 0 0, 0% 50%;
+  animation: saleRing 20s linear infinite;
+  box-shadow: 0 0 18px rgba(180, 167, 240, 0.12);
+}
+@keyframes saleRing {
+  from { background-position: 0 0, 0% 50%; }
+  to   { background-position: 0 0, 300% 50%; }
+}
+/* same rim, but the whole lifetime card */
+.sale-ring-card {
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(160deg, rgba(12, 34, 56, 0.55), rgba(8, 22, 38, 0.45)),
+    linear-gradient(115deg, #7cc9ec 0%, #a795ef 32%, #e3a8e4 55%, #a795ef 78%, #7cc9ec 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 300% 100%;
+  background-position: 0 0, 0% 50%;
+  animation: saleRing 24s linear infinite;
+  box-shadow: 0 18px 50px rgba(37, 99, 235, 0.16), 0 0 24px rgba(180, 167, 240, 0.1);
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sale-ring, .sale-ring-card { animation: none; }
+}
+
+/* hero — type-led index */
+.hero-halo {
+  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+}
+.wave-hero-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(131,214,252,0.18) 0%, rgba(37,99,235,0.12) 38%, transparent 68%);
+  filter: blur(32px);
+}
+
+/* wordmark letters — even at rest, each on its own phase of the ripple */
+.wave-letter {
+  display: inline-block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  animation: waveRipple 3.6s linear infinite;
+  will-change: transform;
+}
+/* keyframes + linear timing: constant motion, no stop-start at the turns */
+@keyframes waveRipple {
+  0%    { transform: translate3d(0, 0, 0); }
+  12.5% { transform: translate3d(0, -7px, 0); }
+  25%   { transform: translate3d(0, -11px, 0); }
+  37.5% { transform: translate3d(0, -7px, 0); }
+  50%   { transform: translate3d(0, 0, 0); }
+  62.5% { transform: translate3d(0, 5.5px, 0); }
+  75%   { transform: translate3d(0, 9px, 0); }
+  87.5% { transform: translate3d(0, 5.5px, 0); }
+  100%  { transform: translate3d(0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-letter { animation: none; }
+}
+
+/* hero flip line — 6 phrases, 13s loop, each owns an equal slice */
+.flip-line {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  padding: 4px 0;
+  margin: 0;
+  background: linear-gradient(to bottom, #83D6FC 0%, #C4EEFF 35%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(131,214,252,0.22));
+  font-family: "Gorilla Tag", "Product Sans", "Google Sans", sans-serif;
+  opacity: 0;
+  animation: flipPhrase 13s ease-in-out infinite;
+  animation-delay: var(--flip-delay, 0s);
+  animation-fill-mode: both;
+}
+@media (min-width: 768px) { .flip-line { font-size: 25px; } }
+@media (min-width: 1024px) { .flip-line { font-size: 28px; } }
+
+@keyframes flipPhrase {
+  0%        { transform: translateY(8px);  opacity: 0; filter: blur(4px); }
+  1.5%      { transform: translateY(0);    opacity: 1; filter: blur(0); }
+  15.1667%  { transform: translateY(0);    opacity: 1; filter: blur(0); }
+  16.6667%  { transform: translateY(-8px); opacity: 0; filter: blur(6px); }
+  100%      { transform: translateY(-8px); opacity: 0; filter: blur(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-line { animation: none; }
+  .flip-line:first-child { opacity: 1; }
+}
+
+/* glass cards — wet glass */
+.glass-card {
+  background: linear-gradient(135deg, rgba(12,34,56,0.55) 0%, rgba(8,22,38,0.45) 100%);
+  border: 1px solid rgba(196,238,255,0.10);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(196,238,255,0.12), inset 0 -18px 30px rgba(37,99,235,0.05);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  transition: transform 0.3s ease, box-shadow 0.3s, border-color 0.3s;
+}
+.glass-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(131,214,252,0.22);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.34), 0 0 22px rgba(131,214,252,0.10), inset 0 1px 0 rgba(196,238,255,0.18);
+}
+
+/* bubbly — gentle */
+.bubbly { transition: transform 0.25s ease, box-shadow 0.25s, border-color 0.25s; }
+.bubbly:hover { transform: translateY(-1px); }
+
+/* slight gradients — professional */
+.grad-text { background: linear-gradient(180deg, #ffffff 0%, #e4e4e7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.grad-text-pink { background: linear-gradient(180deg, #D6F2FF 0%, #83D6FC 60%, #9BDDFB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* buttons — wet glass */
+.btn-primary {
+  background: linear-gradient(135deg,#C4EEFF 0%,#83D6FC 45%,#2563EB 100%);
+  color: #04121f;
+  box-shadow: 0 4px 16px rgba(131,214,252,0.28), inset 0 1px 0 rgba(255,255,255,0.35);
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(131,214,252,0.38), inset 0 1px 0 rgba(255,255,255,0.45); }
+
+/* navbar — subtle */
+nav a, nav button { transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.site-nav.is-scrolled { box-shadow: 0 8px 32px rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.1); }

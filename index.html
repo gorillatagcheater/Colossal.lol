@@ -1,371 +1,215 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="h-full antialiased">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colossal.lol - Coming Soon</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wave - Best Gorilla Tag Exploits</title>
+  <meta name="description" content="Wave — Gorilla Tag Mods, Crashes, Op Exploits" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="preload" href="assets/fonts/gorilla-tag-font.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/site.css" />
 
-    <style>
-        @font-face {
-            font-family: 'Product Sans';
-            src: local('Product Sans'), local('Google Sans');
-            font-style: normal;
-            font-weight: 400;
-        }
-
-        @font-face {
-            font-family: 'Product Sans';
-            src: local('Product Sans Bold'), local('Google Sans Bold');
-            font-style: normal;
-            font-weight: 700;
-        }
-
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #E69CFF;
-            --bg-dark: #0a0a0f;
-            --text-primary: #ffffff;
-        }
-
-        body {
-            font-family: 'Product Sans', 'Segoe UI', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bg-gradient {
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(230, 156, 255, 0.28) 0%, transparent 48%),
-                radial-gradient(ellipse at 80% 80%, rgba(197, 123, 222, 0.22) 0%, transparent 48%),
-                radial-gradient(ellipse at 75% 15%, rgba(180, 80, 240, 0.18) 0%, transparent 40%),
-                radial-gradient(ellipse at 10% 75%, rgba(210, 100, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(ellipse at 50% 50%, rgba(230, 156, 255, 0.08) 0%, transparent 65%),
-                var(--bg-dark);
-            z-index: -2;
-        }
-
-        .bg-orbs {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .bg-orbs::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(230, 156, 255, 0.12) 0%, transparent 70%);
-            top: -10%;
-            left: -10%;
-            animation: orbDrift1 22s linear infinite;
-            animation-delay: -7s;
-            filter: blur(40px);
-        }
-
-        .bg-orbs::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(180, 80, 240, 0.14) 0%, transparent 70%);
-            bottom: -10%;
-            right: -5%;
-            animation: orbDrift2 28s linear infinite;
-            animation-delay: -10s;
-            filter: blur(50px);
-        }
-
-        @keyframes orbDrift1 {
-            0% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(80px, 40px) scale(1.1); }
-            50% { transform: translate(120px, 80px) scale(1.2); }
-            75% { transform: translate(40px, 100px) scale(1.05); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        @keyframes orbDrift2 {
-            0% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(-60px, -30px) scale(1.08); }
-            50% { transform: translate(-100px, -60px) scale(1.15); }
-            75% { transform: translate(-50px, -80px) scale(1.05); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        .ghosts-container {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .ghost {
-            position: absolute;
-            width: 92px;
-            height: 92px;
-            opacity: 0.12;
-            --scale: 1;
-            --dx: 0px;
-            --dy: 0px;
-            animation: float 42s linear infinite;
-            will-change: transform;
-            transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
-        }
-
-        .ghost img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            filter: saturate(165%) brightness(1.2)
-                drop-shadow(0 0 12px rgba(230, 156, 255, 0.35));
-        }
-
-        .ghost:nth-child(1) {
-            left: 5%;
-            top: 10%;
-            animation-delay: -1s;
-            --scale: 1;
-            --dx: 28px;
-            --dy: -20px;
-        }
-
-        .ghost:nth-child(2) {
-            left: 15%;
-            top: 60%;
-            animation-delay: -3s;
-            --scale: 1.1;
-            --dx: -36px;
-            --dy: 22px;
-        }
-
-        .ghost:nth-child(3) {
-            left: 25%;
-            top: 30%;
-            animation-delay: -5s;
-            --scale: 0.9;
-            --dx: 24px;
-            --dy: 28px;
-        }
-
-        .ghost:nth-child(4) {
-            left: 35%;
-            top: 80%;
-            animation-delay: -7s;
-            --scale: 1.05;
-            --dx: -30px;
-            --dy: -18px;
-        }
-
-        .ghost:nth-child(5) {
-            left: 45%;
-            top: 15%;
-            animation-delay: -9s;
-            --scale: 1.2;
-            --dx: 34px;
-            --dy: 16px;
-        }
-
-        .ghost:nth-child(6) {
-            left: 55%;
-            top: 70%;
-            animation-delay: -11s;
-            --scale: 0.8;
-            --dx: -26px;
-            --dy: -24px;
-        }
-
-        .ghost:nth-child(7) {
-            left: 65%;
-            top: 40%;
-            animation-delay: -13s;
-            --scale: 1;
-            --dx: 22px;
-            --dy: 26px;
-        }
-
-        .ghost:nth-child(8) {
-            left: 75%;
-            top: 85%;
-            animation-delay: -15s;
-            --scale: 0.9;
-            --dx: -32px;
-            --dy: 20px;
-        }
-
-        .ghost:nth-child(9) {
-            left: 85%;
-            top: 20%;
-            animation-delay: -17s;
-            --scale: 1.3;
-            --dx: 30px;
-            --dy: -22px;
-        }
-
-        .ghost:nth-child(10) {
-            left: 95%;
-            top: 55%;
-            animation-delay: -19s;
-            --scale: 0.7;
-            --dx: -24px;
-            --dy: 24px;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
-            }
-            25% {
-                transform: translate3d(var(--dx), calc(var(--dy) * -0.45), 0)
-                    scale(var(--scale)) rotate(2deg);
-            }
-            50% {
-                transform: translate3d(calc(var(--dx) * -0.65), var(--dy), 0)
-                    scale(var(--scale)) rotate(3deg);
-            }
-            75% {
-                transform: translate3d(calc(var(--dx) * 0.5), calc(var(--dy) * 0.55), 0)
-                    scale(var(--scale)) rotate(-2deg);
-            }
-            100% {
-                transform: translate3d(0, 0, 0) scale(var(--scale)) rotate(-3deg);
-            }
-        }
-
-        .page-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5rem 2rem;
-        }
-
-        .meow-card {
-            position: relative;
-            background: rgba(18, 18, 28, 0.42);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3.8rem;
-            width: 100%;
-            max-width: 720px;
-            text-align: center;
-            box-shadow:
-                0 10px 26px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px) saturate(125%);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .meow-card:hover {
-            border-color: rgba(230, 156, 255, 0.44);
-            box-shadow:
-                0 16px 34px rgba(0, 0, 0, 0.34),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
-        }
-
-        .meow-logo {
-            font-size: 1.95rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-        }
-
-        .meow-logo span {
-            color: var(--primary);
-        }
-
-        .coming-title {
-            font-size: 2.4rem;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 24px rgba(230, 156, 255, 0.28);
-        }
-
-        .btn {
-            padding: 0.9rem 2rem;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border: none;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #E69CFF 0%, #D58DF2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(230, 156, 255, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .meow-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .coming-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
+  <!-- sell.app checkout modal -->
+  <script src="https://cdn.sell.app/embed/script.js" type="module"></script>
+  <link href="https://cdn.sell.app/embed/style.css" rel="stylesheet" />
 </head>
+<body class="site-body flex min-h-full flex-col bg-[#060e1a] text-white">
 
-<body>
-    <div class="bg-gradient"></div>
-    <div class="bg-orbs"></div>
+  <!-- wave field: three drifting swells + abyss gradient below the fold -->
+  <div class="wave-bg-gradient" aria-hidden="true"></div>
+  <div class="wave-field" aria-hidden="true">
+    <svg width="0" height="0" style="position:absolute;overflow:hidden">
+      <defs>
+        <linearGradient id="wave-fill-far" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#8FD2F5" stop-opacity="0.13" />
+          <stop offset="55%" stop-color="#2E6EA8" stop-opacity="0.07" />
+          <stop offset="100%" stop-color="#04101d" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="wave-fill-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#83D6FC" stop-opacity="0.14" />
+          <stop offset="50%" stop-color="#2563EB" stop-opacity="0.09" />
+          <stop offset="100%" stop-color="#02070d" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="wave-fill-near" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#C4EEFF" stop-opacity="0.12" />
+          <stop offset="45%" stop-color="#1D4ED8" stop-opacity="0.08" />
+          <stop offset="100%" stop-color="#01060b" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
 
-    <div class="ghosts-container">
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
-        <div class="ghost"><img src="favicon.png" alt=""></div>
+    <div class="wave-band" style="--wave-dur:170s;--wave-delay:-21.25s;opacity:.8;height:clamp(340px,58vh,680px)">
+      <svg viewBox="0 0 2880 600" preserveAspectRatio="none" width="100%" height="100%">
+        <path class="wave-fill" d="M0 330 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 L 2880 600 L 0 600 Z" fill="url(#wave-fill-far)" />
+        <path class="wave-crest" d="M0 330 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0 c 120 -34 240 -34 360 0 c 120 34 240 34 360 0" fill="none" stroke="#C4EEFF" stroke-opacity="0.16" stroke-width="1.1" stroke-linecap="round" />
+      </svg>
     </div>
 
-    <div class="page-content">
-        <div class="meow-card">
-            <div class="meow-logo">
-                Colossal<span>.lol</span><br>coming soon
+    <div class="wave-band wave-band--reverse" style="--wave-dur:125s;--wave-delay:-54.6875s;opacity:.85;height:clamp(340px,58vh,680px)">
+      <svg viewBox="0 0 2880 600" preserveAspectRatio="none" width="100%" height="100%">
+        <path class="wave-fill" d="M0 405 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 L 2880 600 L 0 600 Z" fill="url(#wave-fill-mid)" />
+        <path class="wave-crest" d="M0 405 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0 c 120 -46 240 -46 360 0 c 120 46 240 46 360 0" fill="none" stroke="#A8E2FF" stroke-opacity="0.18" stroke-width="1.25" stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <div class="wave-band" style="--wave-dur:95s;--wave-delay:-71.25s;opacity:.85;height:clamp(340px,58vh,680px)">
+      <svg viewBox="0 0 2880 600" preserveAspectRatio="none" width="100%" height="100%">
+        <path class="wave-fill" d="M0 480 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 L 2880 600 L 0 600 Z" fill="url(#wave-fill-near)" />
+        <path class="wave-crest" d="M0 480 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0 c 120 -60 240 -60 360 0 c 120 60 240 60 360 0" fill="none" stroke="#C4EEFF" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+  <div class="wave-deep" aria-hidden="true"></div>
+
+  <!-- top banner — announcement + discord -->
+  <a href="https://discord.gg/JmX66dGjEC" target="_blank" rel="noopener noreferrer" class="relative z-10 flex w-full items-center justify-center border-b border-[#83D6FC]/20 bg-[linear-gradient(90deg,rgba(37,99,235,0.22),rgba(131,214,252,0.16),rgba(37,99,235,0.22))] px-4 py-2.5 text-center text-[12px] font-semibold tracking-wide text-[#C4EEFF] transition-colors hover:text-white">
+    Full mod menu coming out soon — <span class="underline decoration-[#83D6FC]/50 underline-offset-2">join the discord for updates</span>
+  </a>
+
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-[#83D6FC] focus:px-4 focus:py-2 focus:font-semibold focus:text-black">Skip to main content</a>
+
+  <main id="main" class="flex flex-1 flex-col">
+
+    <!-- HERO -->
+    <section class="relative flex min-h-[92vh] items-center px-4 sm:px-6 lg:px-8 pt-16 pb-16 overflow-hidden">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-transparent"></div>
+      <div class="hero-halo absolute -top-24 left-1/2 -translate-x-1/2 h-[600px] w-[900px] -z-10 bg-gradient-to-r from-[#83D6FC]/12 via-[#3B82F6]/10 to-[#1E40AF]/10 blur-[80px] rounded-full pointer-events-none"></div>
+
+      <div class="mx-auto w-full max-w-[1200px]">
+        <div class="relative mx-auto flex w-full max-w-[680px] flex-col items-center text-center">
+          <div class="wave-hero-glow" aria-hidden="true"></div>
+
+          <div class="relative w-full">
+            <div class="relative min-h-[72px] md:min-h-[84px] overflow-visible">
+              <div class="relative min-h-[72px] md:min-h-[84px] overflow-hidden flex items-center justify-center">
+                <p class="flip-line" style="--flip-delay:0s">Gamebreaking? That's,</p>
+                <p class="flip-line" style="--flip-delay:2.1667s">Drop their game before they drop a gg.</p>
+                <p class="flip-line" style="--flip-delay:4.3333s">Streamers hate to see,</p>
+                <p class="flip-line" style="--flip-delay:6.5s">Exploit patched? There's 5 more where that came from.</p>
+                <p class="flip-line" style="--flip-delay:8.6667s">PBBV is real, they use,</p>
+                <p class="flip-line" style="--flip-delay:10.8333s">Losing an argument? Crash them.</p>
+              </div>
+            </div>
+          </div>
+
+          <h1 aria-label="Wave" class="relative mt-1 flex w-full items-start justify-center text-[clamp(84px,13vw,152px)] font-extrabold leading-none tracking-[-0.04em] [text-shadow:none]">
+            <span aria-hidden="true" class="wave-letter bg-gradient-to-b from-[#EAF9FF] via-[#83D6FC] to-[#2563EB] bg-clip-text pb-[0.08em] text-transparent" style="animation-delay:0s">W</span>
+            <span aria-hidden="true" class="wave-letter bg-gradient-to-b from-[#EAF9FF] via-[#83D6FC] to-[#2563EB] bg-clip-text pb-[0.08em] text-transparent" style="animation-delay:0.4s">A</span>
+            <span aria-hidden="true" class="wave-letter bg-gradient-to-b from-[#EAF9FF] via-[#83D6FC] to-[#2563EB] bg-clip-text pb-[0.08em] text-transparent" style="animation-delay:0.8s">V</span>
+            <span aria-hidden="true" class="wave-letter bg-gradient-to-b from-[#EAF9FF] via-[#83D6FC] to-[#2563EB] bg-clip-text pb-[0.08em] text-transparent" style="animation-delay:1.2s">E</span>
+          </h1>
+
+          <div class="relative mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a href="#showcases" class="inline-flex w-[160px] items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-sm font-semibold text-white transition-colors hover:border-white/15 hover:bg-white/[0.08]">Showcases</a>
+            <a href="https://discord.gg/JmX66dGjEC" target="_blank" rel="noopener noreferrer" class="inline-flex w-[160px] items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-sm font-semibold text-white transition-colors hover:border-white/15 hover:bg-white/[0.08]">Discord</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRASHER / ORBITAL CRASHER — tokens -->
+    <section id="crasher" class="relative px-4 sm:px-6 lg:px-8 -mt-10 pb-4">
+      <div class="mx-auto w-full max-w-[1100px]">
+        <div class="relative overflow-hidden rounded-[20px] border border-[#EF4444]/40 bg-gradient-to-br from-[#EF4444]/22 via-[#B91C1C]/10 to-transparent backdrop-blur p-8">
+          <div class="absolute -top-12 -right-12 h-40 w-40 bg-gradient-to-br from-[#F87171]/25 to-transparent blur-2xl rounded-full pointer-events-none"></div>
+
+          <div class="relative">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-b from-[#FEE2E2] via-[#F87171] to-[#B91C1C] bg-clip-text text-transparent drop-shadow-[0_0_16px_rgba(239,68,68,0.25)]">Orbital Crasher</h2>
+
+            <p class="mt-2 max-w-[640px] text-sm leading-relaxed text-zinc-300">1 crash = 1 token — no subscription, no expiry. Bigger packs are cheaper per crash.</p>
+
+            <ul class="mt-4 grid gap-2">
+              <li class="text-sm leading-relaxed text-zinc-200">Instantly crash quest and PC users</li>
+              <li class="text-sm leading-relaxed text-zinc-200">Crashes PC users even if the room is full</li>
+              <li class="text-sm leading-relaxed text-zinc-200">Runs off a Discord bot — no PC, no Steam account, works from your phone</li>
+            </ul>
+
+            <div class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-3">
+
+              <article class="rounded-2xl border border-white/10 bg-black/25 p-5 flex flex-col">
+                <div class="text-base font-extrabold tracking-tight text-white">30 crashes</div>
+                <div class="mt-0.5 text-[11px] text-zinc-500">$0.50 per crash</div>
+                <div class="mt-3 flex items-baseline gap-1">
+                  <span class="text-3xl font-extrabold text-white">$15</span>
+                </div>
+                <button type="button" data-sell-store="55426" data-sell-product="393732" data-sell-theme="" data-sell-darkmode="true" class="mt-4 inline-flex w-full cursor-pointer justify-center rounded-xl border border-white/10 py-2.5 text-xs font-bold text-white hover:bg-white/10">Buy Now</button>
+              </article>
+
+              <article class="relative rounded-2xl border border-[#B4A7F0]/50 bg-black/30 p-5 flex flex-col shadow-[0_0_36px_-10px_rgba(180,167,240,0.55)]">
+                <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[linear-gradient(115deg,#8FD3EE_0%,#B4A7F0_38%,#E7B6EC_70%,#ECD69A_100%)] px-3 py-0.5 text-[0.6rem] font-extrabold uppercase tracking-wide text-black shadow-[0_6px_20px_rgba(167,139,250,0.35)]">Most popular · 33% off</div>
+                <div class="text-base font-extrabold tracking-tight text-white">60 crashes</div>
+                <div class="mt-0.5 text-[11px] text-zinc-400">$0.33 per crash</div>
+                <div class="mt-3 flex items-baseline gap-1">
+                  <span class="text-4xl font-extrabold text-white drop-shadow-[0_0_14px_rgba(180,167,240,0.45)]">$20</span>
+                </div>
+                <button type="button" data-sell-store="55426" data-sell-product="393736" data-sell-theme="" data-sell-darkmode="true" class="btn-primary mt-4 inline-flex w-full cursor-pointer justify-center rounded-xl py-2.5 text-xs font-bold">Buy Now</button>
+              </article>
+
+              <article class="relative rounded-2xl border border-white/10 bg-black/25 p-5 flex flex-col">
+                <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#83D6FC] to-[#5BB8F5] px-3 py-0.5 text-[0.6rem] font-extrabold uppercase tracking-wide text-black shadow-[0_6px_20px_rgba(131,214,252,0.35)]">40% off</div>
+                <div class="text-base font-extrabold tracking-tight text-white">160 crashes</div>
+                <div class="mt-0.5 text-[11px] text-zinc-500">$0.30 per crash</div>
+                <div class="mt-3 flex items-baseline gap-1">
+                  <span class="text-3xl font-extrabold text-white">$48</span>
+                </div>
+                <button type="button" data-sell-store="55426" data-sell-product="393737" data-sell-theme="" data-sell-darkmode="true" class="mt-4 inline-flex w-full cursor-pointer justify-center rounded-xl border border-white/10 py-2.5 text-xs font-bold text-white hover:bg-white/10">Buy Now</button>
+              </article>
+
             </div>
 
-            <a
-                href="https://discord.gg/JmX66dGjEC"
-                class="btn btn-primary"
-                target="_blank"
-            >
-                Join The Discord
-            </a>
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-6">
+              <p class="text-[11px] leading-snug text-zinc-500 sm:max-w-[45%]">Tokens never expire and stack — buy as many as you want, use them whenever.</p>
+              <p class="text-[11px] leading-snug text-zinc-600 sm:flex-1 sm:border-l sm:border-white/10 sm:pl-6">Crash methods get patched fast. If the bot goes down or all crashes are gone, tokens aren't refunded and we're not liable for the loss.</p>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- SHOWCASES -->
+    <section id="showcases" class="px-4 sm:px-6 lg:px-8 py-16">
+      <div class="mx-auto max-w-[1200px]">
+        <h2 class="text-2xl font-bold bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.06)]">Showcases</h2>
+        <p class="text-sm text-zinc-500 mt-1 drop-shadow-[0_0_6px_rgba(255,255,255,0.04)]">Videos from our community</p>
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="rounded-xl overflow-hidden border-2 border-white/15 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_24px_rgba(131,214,252,0.12)] hover:shadow-[0_0_32px_rgba(131,214,252,0.2)] hover:border-[#83D6FC]/30 ring-1 ring-white/5 hover:ring-[#83D6FC]/20 transition-all duration-300 aspect-video">
+            <iframe src="https://www.youtube.com/embed/Ay_9vXqhSCs" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full"></iframe>
+          </div>
+          <div class="rounded-xl overflow-hidden border-2 border-white/15 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_24px_rgba(131,214,252,0.12)] hover:shadow-[0_0_32px_rgba(131,214,252,0.2)] hover:border-[#83D6FC]/30 ring-1 ring-white/5 hover:ring-[#83D6FC]/20 transition-all duration-300 aspect-video">
+            <iframe src="https://www.youtube.com/embed/CxMOEikogbY" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full"></iframe>
+          </div>
+          <div class="rounded-xl overflow-hidden border-2 border-white/15 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_24px_rgba(131,214,252,0.12)] hover:shadow-[0_0_32px_rgba(131,214,252,0.2)] hover:border-[#83D6FC]/30 ring-1 ring-white/5 hover:ring-[#83D6FC]/20 transition-all duration-300 aspect-video">
+            <iframe src="https://www.youtube.com/embed/1U1cqi4F6rM" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full"></iframe>
+          </div>
+          <div class="rounded-xl overflow-hidden border-2 border-white/15 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_24px_rgba(131,214,252,0.12)] hover:shadow-[0_0_32px_rgba(131,214,252,0.2)] hover:border-[#83D6FC]/30 ring-1 ring-white/5 hover:ring-[#83D6FC]/20 transition-all duration-300 aspect-video">
+            <iframe src="https://www.youtube.com/embed/R5l1-uVTxvc" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full"></iframe>
+          </div>
+          <div class="rounded-xl overflow-hidden border-2 border-white/15 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_24px_rgba(131,214,252,0.12)] hover:shadow-[0_0_32px_rgba(131,214,252,0.2)] hover:border-[#83D6FC]/30 ring-1 ring-white/5 hover:ring-[#83D6FC]/20 transition-all duration-300 aspect-video">
+            <iframe src="https://www.youtube.com/embed/nbYcvykm1fQ" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 border-t border-white/10 bg-[#060e1a] px-8 py-16">
+    <div class="mx-auto max-w-[1400px]">
+      <div class="mb-12 flex flex-col justify-between gap-8 md:flex-row">
+        <div>
+          <span class="flex items-center gap-1.5 text-lg font-bold text-white"><span class="tracking-tight">Wave</span></span>
+          <p class="mt-4 max-w-md leading-relaxed text-zinc-400">Wave is not associated or affiliated with Another Axiom or any of its subsidiaries.</p>
+        </div>
+        <div class="md:text-right">
+          <h4 class="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400">Community</h4>
+          <a href="https://discord.gg/JmX66dGjEC" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-white">Discord</a>
+        </div>
+      </div>
+      <div class="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-zinc-400 md:flex-row">
+        <p>© 2026 Wave. All rights reserved.</p>
+      </div>
     </div>
+  </footer>
+
+  <script src="js/site.js" defer></script>
 </body>
 </html>
