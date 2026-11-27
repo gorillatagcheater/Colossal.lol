@@ -272,3 +272,18 @@
 /* navbar — subtle */
 nav a, nav button { transition: background 0.2s, color 0.2s, border-color 0.2s; }
 .site-nav.is-scrolled { box-shadow: 0 8px 32px rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.1); }
+
+/* PHOTON BOTS — yellow twin of the Orbital Crasher panel.
+   Plain CSS on purpose: source(none) means a rebuild won't emit new arbitrary
+   utilities, so the yellow variants can't live in the markup as Tailwind classes. */
+.photon-panel { border-color: rgba(255,214,0,0.45); background-image: linear-gradient(to bottom right, rgba(255,214,0,0.22), rgba(161,98,7,0.10), transparent); }
+.photon-blob { background-image: linear-gradient(to bottom right, rgba(255,236,120,0.28), transparent); }
+.photon-title { background-image: linear-gradient(to bottom, #fffce6, #ffe45c, #a16207); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 16px rgba(255,214,0,0.25)); }
+.photon-buy { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; margin-top: 28px; }
+.photon-card { width: 100%; max-width: 337px; flex: 0 0 auto; }
+.photon-note { margin-left: auto; max-width: 52%; text-align: right; font-size: 1.125rem; line-height: 1.7; color: #d4d4d8; }
+@media (max-width: 767px) { .photon-buy { gap: 18px; } .photon-note { margin-left: 0; max-width: 100%; text-align: left; font-size: 1rem; } }
+.photon-video { display: block; margin-left: auto; width: 100%; max-width: 520px; border-radius: 14px; border: 1px solid rgba(255,214,0,0.35); box-shadow: 0 0 28px -8px rgba(255,214,0,0.45); margin-bottom: 14px; }
+.photon-steam a { color: #ffe45c; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(255,214,0,0.5); }
+.photon-steam a:hover { color: #fff; }
+.photon-steam a:hover { color: #fff; }

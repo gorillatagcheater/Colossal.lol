@@ -1587,3 +1587,16 @@ nav a, nav button {
     }
   }
 }
+
+/* ---- PHOTON BOTS (green twin of Orbital Crasher) ---- */
+.photon-panel{border-color:rgba(255,214,0,.45);background-image:linear-gradient(to bottom right,rgba(255,214,0,.22),rgba(161,98,7,.10),transparent)}
+.photon-blob{background-image:linear-gradient(to bottom right,rgba(255,236,120,.28),transparent)}
+.photon-title{background-image:linear-gradient(to bottom,#FFFCE6,#FFE45C,#A16207);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,214,0,.25))}
+/* features */
+.photon-buy{display:flex;flex-wrap:wrap;gap:28px;align-items:center;margin-top:28px}
+.photon-card{width:100%;max-width:337px;flex:0 0 auto}
+.photon-note{margin-left:auto;max-width:52%;text-align:right;font-size:1.125rem;line-height:1.7;color:#d4d4d8}
+@media (max-width:767px){.photon-buy{gap:18px}.photon-note{margin-left:0;max-width:100%;text-align:left;font-size:1rem}}
+.photon-video{display:block;margin-left:auto;width:100%;max-width:520px;border-radius:14px;border:1px solid rgba(255,214,0,.35);box-shadow:0 0 28px -8px rgba(255,214,0,.45);margin-bottom:14px}
+.photon-steam a{color:#FFE45C;text-decoration:underline;text-underline-offset:2px;text-decoration-color:rgba(255,214,0,.5)}
+.photon-steam a:hover{color:#fff}
